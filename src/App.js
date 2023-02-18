@@ -1,16 +1,21 @@
 import React from 'react';
+import { useGlobalContext } from './context';
 import Navbar from './Navbar';
-import Hero from './Hero';
-import Sidebar from './Sidebar';
-import Submenu from './Submenu';
+import CartContainer from './CartContainer';
 function App() {
+  const { loading } = useGlobalContext();
+  if (loading) {
+    return (
+      <div className='loading'>
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
   return (
-    <>
+    <div>
       <Navbar />
-      <Sidebar />
-      <Hero />
-      <Submenu />
-    </>
+      <CartContainer />
+    </div>
   );
 }
 

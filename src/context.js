@@ -1,42 +1,56 @@
-import React, { useState, useContext } from 'react';
-import sublinks from './data';
+import React, { useState, useContext, useEffect, useReducer } from 'react';
+import cartItems from './data';
+import reducer from './reducer';
 
+const initialState = {
+  loading: false,
+  cart: cartItems,
+  total: 0,
+  amount: 0,
+};
+const url = 'https://course-api.com/react-useReducer-cart-project';
 const AppContext = React.createContext();
+const AppProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-export const AppProvider = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
-  const [location, setLoaction] = useState({});
-  const [page, setPage] = useState({ page: '', links: [] });
-  const openSidebar = () => {
-    setIsSidebarOpen(true);
+  // clearCart:
+  const clearCart = () => {
+    dispatch({ type: 'CLEAR_CART' });
   };
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
+  // remove:
+  const remove = id => {
+    dispatch({ type: 'REMOVE', payload: id });
   };
-  const openSubmenu = (text, coordinates) => {
-    const page = sublinks.find(link => link.page === text);
-    setPage(page);
-    setLoaction(coordinates);
-    setIsSubmenuOpen(true);
+  // increase:
+  const increase = id => {
+    dispatch({ type: 'INCREASE', payload: id });
+  };
+  // decrease:
+  const decrease = id => {
+    dispatch({ type: 'DECREASE', payload: id });
+  };
+  //fetchData:
+  const fetchData = async () => {
+    dispatch({ type: 'LOADING' });
+    const responsive = await fetch(url);
+    const cart = await responsive.json();
+    dispatch({ type: 'DISPLAY_ITEMS', payload: cart });
   };
 
-  const closeSubmenu = () => {
-    setIsSubmenuOpen(false);
+  // REFACTORING:
+  const toggleAmount = (id, type) => {
+    dispatch({ type: 'TOGGLE_AMOUNT', payload: { id, type } });
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
+  useEffect(() => {
+    dispatch({ type: 'GET_TOTALS' });
+  }, [state.cart]);
   return (
     <AppContext.Provider
-      value={{
-        isSidebarOpen,
-        isSubmenuOpen,
-        openSidebar,
-        closeSidebar,
-        openSubmenu,
-        closeSubmenu,
-        location,
-        page,
-      }}
+      value={{ ...state, clearCart, remove, increase, decrease, toggleAmount }}
     >
       {children}
     </AppContext.Provider>
@@ -46,3 +60,5 @@ export const AppProvider = ({ children }) => {
 export const useGlobalContext = () => {
   return useContext(AppContext);
 };
+
+export { AppContext, AppProvider };

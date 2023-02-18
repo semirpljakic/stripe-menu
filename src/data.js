@@ -1,30 +1,23 @@
-import { FaCreditCard, FaBook, FaBriefcase } from 'react-icons/fa';
-import React from 'react';
-const sublinks = [
+export default [
   {
-    page: 'products',
-    links: [
-      { label: 'payment', icon: <FaCreditCard />, url: '/products' },
-      { label: 'terminal', icon: <FaCreditCard />, url: '/products' },
-      { label: 'connect', icon: <FaCreditCard />, url: '/products' },
-    ],
+    id: 1,
+    title: 'Samsung Galaxy S7',
+    price: 599.99,
+    img: 'https://dl.airtable.com/.attachments/91ee456448cef47deec553a2ea3fa8ad/b08bec68/phone-2_ohtt5s.png',
+    amount: 1,
   },
   {
-    page: 'developers',
-    links: [
-      { label: 'plugins', icon: <FaBook />, url: '/products' },
-      { label: 'libraries', icon: <FaBook />, url: '/products' },
-      { label: 'help', icon: <FaBook />, url: '/products' },
-      { label: 'billing', icon: <FaBook />, url: '/products' },
-    ],
+    id: 2,
+    title: 'google pixel ',
+    price: 499.99,
+    img: 'https://dl.airtable.com/.attachments/91c88ae8c1580e2b762ecb3f73ed1eed/a633139a/phone-1_gvesln.png',
+    amount: 1,
   },
   {
-    page: 'company',
-    links: [
-      { label: 'about', icon: <FaBriefcase />, url: '/products' },
-      { label: 'customers', icon: <FaBriefcase />, url: '/products' },
-    ],
+    id: 3,
+    title: 'Xiaomi Redmi Note 2',
+    price: 699.99,
+    img: 'https://dl.airtable.com/.attachments/bae9208dc34f35128749ecda5b999e84/337c285d/phone-3_h2s6fo.png',
+    amount: 1,
   },
 ];
-
-export default sublinks;
